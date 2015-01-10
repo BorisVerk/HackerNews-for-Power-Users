@@ -13,6 +13,9 @@
       "css": ["styles.css"]
     }
   ],
+  "permissions": [
+    "storage"
+  ],
 
   "manifest_version": 2
 }

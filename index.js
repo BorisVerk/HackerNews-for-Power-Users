@@ -3,21 +3,33 @@ function getCommentsLink(link) {
     return link.parentNode.parentNode.nextSibling.querySelector('a[href^="item?"]');
 }
 
+var links = document.querySelectorAll(linksSelector);
 
-var links = document.querySelectorAll(linksSelector)
-var currentLinkIndex = 0;
+chrome.storage.local.get(null, function(cachedLinkPosition) {
+    // if you were browsing HN less than 5 minutes ago, you probably don't want to lose your position
+    // in the list of links. In the future I might cache the first letter of every link as the indicator
+    // instead of a timestamp.
+    if (cachedLinkPosition && (new Date().getTime())-cachedLinkPosition.timestamp < (1000*60*5)) {
+        currentLinkIndex = cachedLinkPosition.position;
+    } else {
+        currentLinkIndex = 0;
+    }
 
-if (links.length) {
-    links[0].focus();
     links[currentLinkIndex].focus();
-}
+})
 
+function saveCurrentLinkPosition(position) {
+    chrome.storage.local.set({
+        "timestamp": (new Date().getTime()),
+        "position" : currentLinkIndex
+    })
+}
 
 document.onkeypress = function (e) {
     e = e || window.event;
 
-    var jKey = 106; // move up in torrent list
-    var kKey = 107; // move down in torrent list
+    var jKey = 106; // move up in link list
+    var kKey = 107; // move down in link list
 
     var cKey = 99; // view comments
 
@@ -28,11 +40,13 @@ document.onkeypress = function (e) {
     if (e.keyCode === jKey && currentLinkIndex < links.length-1) {
         e.preventDefault();
         currentLinkIndex += 1;
-        links[currentLinkIndex].focus()
+        saveCurrentLinkPosition(currentLinkIndex);
+        links[currentLinkIndex].focus();
 
     } else if (e.keyCode === kKey && currentLinkIndex > 0) {
         e.preventDefault();
         currentLinkIndex += -1;
+        saveCurrentLinkPosition(currentLinkIndex);
         links[currentLinkIndex].focus()
 
     } else if (e.keyCode === cKey) {
