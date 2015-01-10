@@ -1,0 +1,15 @@
+/* make everything the same color */
+body {
+    background-color: #F6F6EF;
+}
+
+/* header */
+body > center > table > tbody > tr:first-child {
+    display: none;
+}
+
+/* search bar, etc. */
+body > center > table > tbody > tr:nth-child(4) {
+    display: none;
+}
+
