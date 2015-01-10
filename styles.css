@@ -13,3 +13,7 @@ body > center > table > tbody > tr:nth-child(4) {
     display: none;
 }
 
+/* I link my Open-Sans default font better than the normal font */
+* {
+    font-family: sans-serif;
+}
