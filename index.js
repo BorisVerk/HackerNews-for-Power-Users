@@ -6,10 +6,10 @@ function getCommentsLink(link) {
 var links = document.querySelectorAll(linksSelector);
 
 chrome.storage.local.get(null, function(cachedLinkPosition) {
-    // if you were browsing HN less than 5 minutes ago, you probably don't want to lose your position
+    // if you were browsing HN less than 25 minutes ago, you probably don't want to lose your position
     // in the list of links. In the future I might cache the first letter of every link as the indicator
     // instead of a timestamp.
-    if (cachedLinkPosition && (new Date().getTime())-cachedLinkPosition.timestamp < (1000*60*5)) {
+    if (cachedLinkPosition && (new Date().getTime())-cachedLinkPosition.timestamp < (1000*60*25)) {
         currentLinkIndex = cachedLinkPosition.position;
     } else {
         currentLinkIndex = 0;
