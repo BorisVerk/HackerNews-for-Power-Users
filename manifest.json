@@ -5,7 +5,7 @@
   "icons": { "128": "img/icon128.png" },
   "content_scripts": [
     {
-      "matches": ["*://news.ycombinator.com/", "*://news.ycombinator.com/news"],
+      "matches": ["*://news.ycombinator.com/", "*://news.ycombinator.com/news*"],
       "js": ["index.js"]
     },
     {
